@@ -6,11 +6,35 @@ import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import { Switch, Route } from 'react-router-dom'
 
+import { auth } from './firebase/firebase.utils';
 
-function App() {
+
+class App extends React.Component {
+
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       currentUser: null
+    }
+  }
+
+  unsbscribeFromAuth = null
+
+  componentDidMount(){  // uygulamaya giriş yaptığımızda user session'ı tut.
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
+      this.setState( {currentUser: user })
+    })
+  }
+
+  componentWillUnmount(){  // session takibi.
+    this.unsubscribeFromAuth();
+  }
+
+  render(){
   return (
     <div>
-      <Header />      
+      <Header currentUser = {this.state.currentUser}/>      
       <Switch>
        <Route        //exact olmazsa / ile başlayan tüm sayfalar renderlanır.
        exact        
@@ -26,7 +50,8 @@ function App() {
        component={SignInAndSignUpPage} />
       </Switch>
     </div>
-  );
+   );
+  }
 }
 
 export default App;
