@@ -51,7 +51,7 @@ class Directory extends React.Component {
                     this.state.sections.map(({id, ...otherSectionProps}) => (  //data'yı map edip menuitem'a props olr.gönderme
                       <MenuItem
                       id={id} 
-                      {...otherSectionProps}
+                      {...otherSectionProps} //... spread(ayırma op.) propları aynı isim ile menuitem'a aktardık.
                       />  
                     ))
                 }
